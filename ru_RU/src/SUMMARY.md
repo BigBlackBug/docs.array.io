@@ -1,0 +1,17 @@
+# Summary
+
+- [Вводная](./README.md)
+- [Еженедельные тезисы](./weekly-abstracts/README.md)
+- [Runtime Safety (Proposals)](./runtime-safety.md)
+- [Изоляция окружений](./isolation.md)
+- [Environment](./environment.md)
+- [Manifest](./manifest.md)
+- [Craft](./craft.md)
+- [Components](./components/overview.md)
+  - [Activity](./components/activity.md)
+  - [Smart-Contract](./components/contract.md)
+  - [Loader](./components/loader.md)
+  - [P2P](./components/p2p.md)
+  - [IPFS](./components/ipfs.md)
+  - [Storage](./components/storage.md)
+  - [Keychain](./components/keychain.md)

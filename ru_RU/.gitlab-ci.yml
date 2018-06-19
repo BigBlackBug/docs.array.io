@@ -1,0 +1,8 @@
+stages:
+  - deploy
+
+deploy:docs:
+  stage: deploy
+  script:
+    - docker build -t array-io/array-io-docs .
+    - docker run -itd -p 3000:3000 --name array-io-docs array-io/array-io-docs
