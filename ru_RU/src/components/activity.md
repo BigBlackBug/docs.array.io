@@ -10,30 +10,6 @@
 - Статичный - позволяет создать еденичный запрос на возвращаемое значение.
 
 ### Manifest
-*На предоставление функционала для других DApp*
-
-``` js
-{
-  // ... other fields
-  "services": [
-    {
-      "name": String, // public Serivce name
-      "type": Static, // Enum { Static, Emitter }
-      "arguments": [{ name, type }, ...], // Срез аргументов с названием и типом 
-      "return": Type // Enum { Map, Array, ...other basic types }
-    },
-
-    {
-      "name": String, // public Serivce name
-      "type": Emitter, // Enum { Static, Emitter }
-      "rules": [ ...rules ], // Права доступные для сервиса: Enum { Send, Receive }
-      "arguments": [{ name, type }, ...], // Срез аргументов с названием и типом
-      "event_type": Type // Enum { Map, Array, ...other basic types }
-    }
-  ]
-}
-```
-
 *На получение доступа к API другого DApp*
 ``` js
 {
@@ -69,96 +45,75 @@ let result = await SomeService(1, 2)
 Манифест
 ``` js
 [
-  {
-    "name": "get_cats",
-    "type": "static",
-    "arguments": [{
-      "name": "user_id",
-      "type": "string"
-    }, {
-      "name": "alive",
-      "type": "bool"
-    }],
-
-    "return": {
-      "is_array": true,
-      "contain": "map",
-      "entries": {
-        "name": "string",
-        "age": "number"
-      }
-    }
-  }, {
-    "watch_new_cats",
-    "type": "emitter",
-
-    "arguments": [{
-      "name": "user_id",
-      "type": "string"
-    }, {
-      "name": "alive",
-      "type": "bool"
-    }],
-
-    "event_type": {
-      "contain": "map",
-
-      "entries": {
-        "name": "string",
-        "age": "number"
-      }
-    }
-  }
+  "WatchCats",
+  "getCats"
 ]
 ```
 
 Примерная имплементация сервиса в предоставляющем его DApp
 ``` js
-const { Activity } = GlobalContext
+const { Activity, Static, Service } = GlobalContext
 
-// Static
-// Имплементируем статичный сервис get_cats, с параметрами
-Activity.register_static('get_cats', async (user_id, alive) => {
-  let result = await dapp_function_get(...args);
-  return result
-})
+interface Cat {
+  name: string,
+  age: number
+}
 
-// Emitter
-// Запрашиваем экземпляр эмитера для сервиса watch
-let emitter = Activity.get_emitter("watch_new_cats")
-// Получаем подписчика по id
-let subscriber = emitter.get_subscriber("subscriber_id")
+@Static
+function getCats(userId: string, alive: boolean): Promise<Cat[]> {
+  let cats: Cat[] = await query({ userId, alive })
+  return cats
+}
 
-// { meta object of arguments for watch }
-console.log(subscriber.params)
 
-// send message to subscriber
-await subscriber.send({
-  name: "Hello Kitty",
-  age: 1
-})
+@Service
+class WatchCats implements Broadcast {
+  static responseScheme = {
+    "alive": "boolean",
+    "name": "string"
+  };
 
+  onReceive(receiver: Receiver, userId: string, alive: boolean): void {
+    // ...
+  }
+
+  sendSubscribedCats(receiver: Receiver): void {
+    this.send(receiver, { messageByScheme })
+  }
+}
 ```
 
 Типизированная декларация
 ``` typescript 
-declare function get_cats(user_id: string, alive: bool): Promise<{ name: string, age: number}[]>;
-declare function watch_new_cats(user_id: string, alive: bool, cb: ({ name: string, age: number}) => void);
+declare function getCats(user_id: string, alive: bool): Promise<{ name: string, age: number}[]>;
+declare function watchCats(user_id: string, alive: bool, cb: ({ name: string, age: number}) => void);
 ```
 
 Как будет выглядеть вызов сервиса из JS
 ``` js
-import watchNewCats from "array.io/services/crypto_kitties/watch_new_cats"
+import watchCats from "array.io/services/crypto_kitties/watch_cats"
 import getCats from "array.io/services/crypto_kitties/get_cats"
 
 // Статичный вызов
-let user_cats = await getCats("12345", 10) // Возвращаемые значения асинхронные, поэтому они Promise 
+let userCats = await getCats("12345", 10) // Возвращаемые значения асинхронные, поэтому они Promise 
 
 // Вызов подписки в сервис
-watchNewCats("12345", 123, ({ name, age }) => {
-  console.log(`Got new cat! Cat is ${name} with ${age} age`)
+watchCats.subscribe({
+  userId: "12345",
+  alive: true
+}, (cats) => {
+  console.log(cats)
 })
 ```
+
+*Пояснение*: В данном примере декларация сервиса производится за счет аннотации, с использованием декоратора функции. Унификация за счет использования декораторов позволяет нам обозначить область использования парсера структуры, и аргументов. Благодаря этому мы может составить базовую схему для создания функций прокси для генерации вызывающих функций из другого DAPP.
+
+Lifecycle Структура.
+- Автор DApp который пишет свой сервис оборачивает его в декоратор аннотацию
+- Декоратор в контексте связан с экземпляром Activity, и автоматически ассоциирует сервис с каналом сообщений
+- В момент компиляции DApp запускается AST парсер вхождений где используются аннотации, по аннотациям выявляется AST сигнатура сервиса и его имплементации
+- Из схемы мы забираем все аргументы и их типы, и создаем схематичный генератор относительно сервисов этого DApp
+- Другой DApp который захочет использовать сервис, при импорте забирает анализаторы сервисов которые он хочет использовать, и происходит автоматическая мета связка к сервису, создавая функции и методы для запросов.
 
 ### Дополнительные ссылки
 Похожая мобильная имплементация в системе Android
