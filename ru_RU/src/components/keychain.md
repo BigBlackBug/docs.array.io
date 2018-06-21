@@ -37,3 +37,31 @@ try {
   // error exception handle
 }
 ```
+
+### Смежные ссылки:
+[Пример команд для pipe based команды keychain](https://github.com/arrayio/array-io-keychain/wiki/keychain-sample-commands)
+
+Пример вывода и ответа на команды keychain-ом
+``` 
+{ "command": "CMD_CREATE", "params": { "keyname": "test1", "encrypted": true, "algo": "CIPHER_AES256", "curve": "CURVE_SECP256K1" } }
+{
+  "id": 0,
+  "result": true
+}
+
+
+{ "command": "CMD_SIGN", "params": { "chainid": "de5f4d8974715e20f47c8bb609547c9e66b0b9e31d521199b3d8d6af6da74cb1", "transaction": "871689d060721b5cec5a010080841e00000000000011130065cd1d0000000000000000", "keyname": "test1" } }
+{
+  "id": 0,
+  "result": "200095af52eb0281237904da0f03ba2091d39dc256950b12b21deb990ff620a3a57876b1c3fca281612314f6155736cd0507355bf031d33330ad0cc5e687d7eb02"
+}
+
+
+{ "command": "CMD_LIST" }
+{
+  "id": 0,
+  "result": [
+    "test1"
+  ]
+}
+```
