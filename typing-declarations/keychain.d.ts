@@ -24,15 +24,18 @@ export interface ActiveKey {
 }
 
 export interface KeyStore {
+  setKey(dapp: string, key: ActiveKey): boolean;
   getKey(dapp: string): ActiveKey;
+
+  list(): { dapp: string, key: ActiveKey }[];
   keys: Keychain.MapOfKeys;
 }
 
 export abstract class Keychain {
   static sign(key: Keychain.Key, chainId: Keychain.ChainId, transaction: Keychain.Transaction): Promise<Keychain.Signed>;
-  static create(key: Keychain.Key, algorithm: Keychain.Algorithm, curve: Keychain.Curve): Promise<boolean>;
+  static create(key: Keychain.Key, algorithm: Keychain.Algorithm, curve: Keychain.Curve): Promise<ActiveKey>;
   static list(): Promise<Keychain.Key[]>;
 
   // Default key by current dapp 
-  defaultKey: ActiveKey;
+  defaultKey?: ActiveKey;
 }
