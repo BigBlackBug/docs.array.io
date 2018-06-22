@@ -11,31 +11,24 @@ export namespace Keychain {
   export enum Curve {
     SECP256K1
   }
-
-  export interface MapOfKeys {
-    [dapp: string]: ActiveKey,
-  }
 }
 
 export interface ActiveKey {
-  key: Keychain.Key;
+  // Protected field allowed only if dapp have ["keychain"] permission
+  // key: Keychain.Key; @rejected
+
   // Active key instanse for sign - simlink bind to static Keychain.sign
   sign(chainId: Keychain.ChainId, transaction: Keychain.Transaction): Promise<Keychain.Signed>;
 }
 
-export interface KeyStore {
-  setKey(dapp: string, key: ActiveKey): boolean;
-  getKey(dapp: string): ActiveKey;
-
-  list(): { dapp: string, key: ActiveKey }[];
-  keys: Keychain.MapOfKeys;
-}
-
 export abstract class Keychain {
+  // Protected methods allowed only if have permission ["keychain"]
   static sign(key: Keychain.Key, chainId: Keychain.ChainId, transaction: Keychain.Transaction): Promise<Keychain.Signed>;
   static create(key: Keychain.Key, algorithm: Keychain.Algorithm, curve: Keychain.Curve): Promise<ActiveKey>;
-  static list(): Promise<Keychain.Key[]>;
 
-  // Default key by current dapp 
-  defaultKey?: ActiveKey;
+  // Method for request sign of unlock keys selector in @client
+  static requestSign(requestMessageInfo: string, chainId: Keychain.ChainId, transaction: Keychain.Transaction): Promise<Keychain.Signed>;
+
+  // protected, allowed only for @client, dapp not have access to keys list
+  static list(): Promise<Keychain.Key[]>;
 }
