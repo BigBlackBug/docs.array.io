@@ -9,7 +9,6 @@ Scheme({
     version - строка с версией которая будет отображна пользователю
   */
   "buildCode": Number,
-  "version": String,
 
   // Название приложения
   "title": String,
@@ -58,7 +57,6 @@ Scheme({
 ``` js
 {
   "buildCode": 1,
-  "version": "0.1",
   "title": "MyAwesomeApp",
   
   "author": {
