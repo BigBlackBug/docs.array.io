@@ -41,15 +41,7 @@ Scheme({
   }
 
   // Сервисы (подробнее в разделе Activity)
-  "services": [
-    {
-      "name": String, // публичное название сервиса
-      "type": Emitter, // Enum { Static, Emitter }
-      "rules": [ ...rules ], // Права доступные для сервиса: Enum { Send, Receive }
-      "arguments": [{ name, type }, ...], // Срез аргументов с названием и типом
-      "event_type": Type // Enum { Map, Array, ...other basic types }
-    }
-  ]
+  "services": String[],
 })
 ```
 
@@ -87,28 +79,8 @@ Scheme({
   },
 
   "services": [
-    {
-      "name": "get_cats",
-      "type": "static",
-
-      "arguments": [{
-        "name": "user_id",
-        "type": "string"
-      }, {
-        "name": "alive",
-        "type": "bool"
-      }],
-
-      "return": {
-        "is_array": true,
-        "contain": "map",
-        
-        "entries": {
-          "name": "string",
-          "age": "number"
-        }
-      }
-    }
+    "WatchCats",
+    "getCats"
   ]
 }
 ```
