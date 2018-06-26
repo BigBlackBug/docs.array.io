@@ -44,13 +44,26 @@ interface Bundle {
   icons: string;  // Path to icons folder with [1x, 2x, 3x]
 }
 
+// Название сервиса который этот Dapp гарантирует предсоставить
 type ServiceName = string;
+// Набор названий сервисов который предоставляет и имплементирует этот Dapp 
 type Services = ServiceName[];
 
-type Dependency = string | {
+interface Dependecies {
+  // Ключ - строка название Dapp в зависимости
+  [dapp: string]: DependencyInfo;
+}
+
+type DependencyInfo = string | {
+  // Указывает Обязательность уровень приоритета использование: обязательная зависимость или нет. 
   optional: boolean;
-  name: string;
+  // Версия зависимости с относительной версией по принципу gem
+  // https://guides.rubygems.org/patterns/#declaring_dependencies
+  version: string;
 };
+
+// Library это ipfs адрес, с которго будет прогружен js файл, для инъекции в сборку.
+type Library = string;
 
 interface Manifest {
   buildCode: number;
@@ -59,7 +72,9 @@ interface Manifest {
   description: Description;
   author: Author;
 
-  dependencies: Dependency[];
+  dependencies: Dependecies;
+  libraries: Library[];
+
   services: Services;
   security: Security;
   bundle: Bundle;
@@ -97,6 +112,21 @@ interface Manifest {
   "services": [
     "getCats",
     "watchCats"
+  ],
+
+  "dependencies": {
+    "relative_dapp": "~1.0",
+    "second_dapp": "1.0.1",
+
+    "optional_dapp": {
+      "optional": true,
+      "version": "2.0"
+    }
+  },
+
+  "libraries": [
+    "/ipfs/QmWZtn3ahqqpGBBRZqPdthcWz2n1rxc1UuiDoWXrgrHKzZ",
+    "/ipfs/QmWZtn3ahqqpGBBRZqPdthcsdfsdfsdFDSGsgfdsgdfgDFd"
   ]
 }
 ```
