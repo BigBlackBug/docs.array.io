@@ -37,7 +37,7 @@ interface Security {
 }
 
 interface Bundle {
-  assets: string; // Path to other app assets eg images, fonts, etc..
+  assets: string; // Path to folder with app assets eg images, fonts, etc..
   script: string; // Path eg build.js
   entry: string;  // Path eg index.html
   icons: string;  // Path to icons folder with [1x, 2x, 3x]
