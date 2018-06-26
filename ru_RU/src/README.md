@@ -4,7 +4,6 @@
     <img src="logo.png" height="250px" width="250px" /> 
 </p>
 
-- [Изоляция окружений](isolation.html)
 - [Manifest](manifest.html)
 - [Craft](toolchain/craft.html)
 - [Рабочий процесс](work-process/README.html)
@@ -20,5 +19,7 @@
   - [IPFS](components/ipfs.html)
   - [Storage](components/storage.html)
   - [Keychain](components/keychain.html)
-  - [Smart-Contract](components/contract.html)
-  - [Loader](components/loader.html)
+- [Устаревшее](not-relevant/README.html)
+  - [Изоляция окружений](not-relevant/isolation.html)
+  - [SmartContract](not-relevant/contract.html)
+  - [Loader](not-relevant/loader.html)

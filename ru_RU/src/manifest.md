@@ -1,48 +1,66 @@
 # Manifest
 Предлагаемая конечная версия схемы манифеста
 
-``` js
-Scheme({
-  /*
-    Vesrion reference: https://developer.android.com/studio/publish/versioning
-    buildCode - номер сборки текущего приложения, основная версия
-    version - строка с версией которая будет отображна пользователю
-  */
-  "buildCode": Number,
+```typescript
+interface Author {
+  email: string;
+  name: string;
+}
 
-  // Название приложения
-  "title": String,
-  
-  "author": {
-    "email": String,
-    "name": String,
-  },
+interface Description {
+  // Массив строк с ключевыми словами для поиска
+  keywords: string[];
+  // Главная страница проекта
+  homepage: string;
+  // Полное описание проекта в html или markdown
+  content: string;
+}
 
-  "description": {
-    // Полное описание проекта в html или markdown
-    "content": String,
-    // Массив строк с ключевыми словами для поиска
-    "keywords": Array,
-    // Главная страница проекта
-    "homepage": URLString,
-  },
+enum Permission {
+  KeychainPrivate,
+  KeychainFull,
 
-  "security": {
-    // Массив строк с запрашиваемыми для dapp разрешениями
-    "permissions": []string,
-  },
+  Notification,
+  Activity,
+  Platform,
+  Logger,
+  Tray,
+  IPFS,
+  P2P,
+}
 
-  // Опции runtime окружения dapp
-  "bundle": {
-    "entry": String, // Path eg index.html
-    "script": String, // Path eg build.js
-    "icons": String, // Path to icons folder with [1x, 2x, 3x]
-    "assets": String // Path to other app assets eg images, fonts, etc..
-  }
+interface Security {
+  // Массив с перечислением запрашиваемых dapp разрешений
+  permissions: Permission[];
+}
 
-  // Сервисы (подробнее в разделе Activity)
-  "services": String[],
-})
+interface Bundle {
+  assets: string; // Path to other app assets eg images, fonts, etc..
+  script: string; // Path eg build.js
+  entry: string;  // Path eg index.html
+  icons: string;  // Path to icons folder with [1x, 2x, 3x]
+}
+
+type ServiceName = string;
+type Services = ServiceName[];
+
+type Dependency = string | {
+  optional: boolean;
+  name: string;
+};
+
+interface Manifest {
+  buildCode: number;
+  title: string;
+
+  description: Description;
+  author: Author;
+
+  dependencies: Dependency[];
+  services: Services;
+  security: Security;
+  bundle: Bundle;
+}
 ```
 
 *Manifest Пример*
@@ -61,12 +79,7 @@ Scheme({
     "keywords": ["awesome", "blockchain", "keywords"],
     "homepage": "http://github.com/user/awesome_app",
   },
-
-  "apperance": {
-    "inject_type": "Overlap",
-    "decorations": false,
-  },
-
+  
   "security": {
     "permissions": ["storage", "logger", "ipfs"],
   },
@@ -79,8 +92,8 @@ Scheme({
   },
 
   "services": [
-    "WatchCats",
-    "getCats"
+    "getCats",
+    "watchCats"
   ]
 }
 ```
