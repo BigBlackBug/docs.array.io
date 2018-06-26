@@ -129,3 +129,5 @@ interface Manifest {
   ]
 }
 ```
+
+permissions, library, dependencies. в чем разница?.
