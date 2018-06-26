@@ -9,6 +9,7 @@
 - [Рабочий процесс](work-process/README.html)
   - [Еженедельные тезисы](work-process/weekly-abstracts/README.html)
   - [Runtime Safety (Proposals)](work-process/runtime-safety.html)
+  - [Разделение клиента](work-process/subprojects.html)
 - [Общие Абстракции](shared/README.html)
   - [DApp Window Context](shared/dapp-window-context.html)
   - [Dependencies](shared/dependencies.html)

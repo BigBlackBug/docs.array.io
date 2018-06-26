@@ -7,6 +7,7 @@
 - [Рабочий процесс](./work-process/README.md)
   - [Еженедельные тезисы](./work-process/weekly-abstracts/README.md)
   - [Runtime Safety (Proposals)](./work-process/runtime-safety.md)
+  - [Разделение клиента](./work-process/subprojects.md)
 - [Общие Абстракции](./shared/README.md)
   - [DApp Window Context](./shared/dapp-window-context.md)
   - [Dependencies](./shared/dependencies.md)
