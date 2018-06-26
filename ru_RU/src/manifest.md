@@ -27,9 +27,8 @@ enum Permission {
   Tray,
   IPFS,
   P2P,
-  Storage  // local db
-  // Assets, // Allowed to all DApps
-  
+  Storage,
+  Assets
 }
 
 interface Security {
