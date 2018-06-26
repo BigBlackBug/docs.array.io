@@ -1,3 +1,4 @@
+FROM debian
 #RUN apt-get install git
 COPY . /tech-disquss
 #RUN git clone https://git.kryptonhub.com/tapok_satan/tech-disquss
