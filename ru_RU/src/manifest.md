@@ -17,8 +17,8 @@ interface Description {
 }
 
 enum Permission {
-  KeychainPrivate,
-  KeychainFull,
+  KeychainPrivate, // 
+  KeychainFull,  // 
 
   Notification,
   Activity,
@@ -27,6 +27,9 @@ enum Permission {
   Tray,
   IPFS,
   P2P,
+  Storage  // local db
+  // Assets, // Allowed to all DApps
+  
 }
 
 interface Security {
