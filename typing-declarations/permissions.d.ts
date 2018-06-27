@@ -11,7 +11,16 @@ export interface RequestResponse {
 export enum Permission { // список компонентов на которые даются разрешения
   AudioCapture,
   VideoCapture,
-  Notification
+  Notification,
+  Activity,
+  Platform,
+  Keychain,
+  Storage,
+  Assets,
+  Logger,
+  Tray,
+  IPFS,
+  P2P,
 }
 
 export abstract class Permissions {

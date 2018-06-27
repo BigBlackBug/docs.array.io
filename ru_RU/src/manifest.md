@@ -20,18 +20,16 @@ interface Description {
 }
 
 enum Permission {
-  KeychainPrivate, // 
-  KeychainFull,  // 
-
   Notification,
   Activity,
   Platform,
+  Keychain,
+  Storage,
+  Assets,
   Logger,
   Tray,
   IPFS,
   P2P,
-  Storage,
-  Assets
 }
 
 interface Security {
