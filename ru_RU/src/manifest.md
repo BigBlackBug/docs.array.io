@@ -14,6 +14,9 @@ interface Description {
   homepage: string;
   // Полное описание проекта в html или markdown
   content: string;
+  // Лицензионное соглашение по которому распространяется Dapp
+  // Возможно добавить или текст соглашения целиком или аббревиатуру существующих
+  license: string;
 }
 
 enum Permission {
