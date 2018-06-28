@@ -129,6 +129,12 @@ interface Manifest {
     "optional_dapp": {
       "optional": true,
       "version": "2.0"
+    },
+
+    "services_dapp": {
+      "optional": false,
+      // List of whitelisted services for dapp
+      "services": [ "watchCats", "getHistory" ]
     }
   },
 
