@@ -54,12 +54,20 @@ interface Dependecies {
   [dapp: string]: DependencyInfo;
 }
 
+// Название запрашиваемого сервиса из Dapp
+type DependencyService = string;
+
+// Изначальное значение - строка, является версией
+// Значения по умолчанию:
+// optional - false
+// services - все сервисы DApp
 type DependencyInfo = string | {
   // Указывает Обязательность уровень приоритета использование: обязательная зависимость или нет. 
   optional: boolean;
   // Версия зависимости с относительной версией по принципу gem
   // https://guides.rubygems.org/patterns/#declaring_dependencies
   version: string;
+  services: DependencyService;
 };
 
 // Library это ipfs адрес, с которго будет прогружен js файл, для инъекции в сборку.
